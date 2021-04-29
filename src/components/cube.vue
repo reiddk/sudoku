@@ -39,9 +39,16 @@
 </p>
 <div>
   <select v-model="selectedPuzzle" @change="setPuzzles()">
-    <option value="0">Puzzle 1</option>
-    <option value="1">Puzzle 2</option>
-    <option value="2">Puzzle 3</option>
+    <option value="0">Difficulty 1</option>
+    <option value="1">Difficulty 2</option>
+    <option value="2">Difficulty 3</option>
+    <option value="3">Difficulty 4</option>
+    <option value="4">Difficulty 5</option>
+    <option value="5">Difficulty 6</option>
+    <option value="6">Difficulty 7</option>
+    <option value="7">Difficulty 8</option>
+    <option value="8">Difficulty 9</option>
+    <option value="9">Difficulty 10</option>
   </select>
 </div>
 
@@ -149,12 +156,6 @@ body { font-family: sans-serif; }
   background-color:white;
 }
 
-.cube-wrapper {
-  width: 450px;
-  height: 450px;
-  padding:1px;
-  position:relative;
-}
 
 .cube__face--front  { transform: rotateY(  0deg) translateZ(200px); }
 .cube__face--right  { transform: rotateY( 90deg) translateZ(200px); }
@@ -162,6 +163,56 @@ body { font-family: sans-serif; }
 .cube__face--left   { transform: rotateY(-90deg) translateZ(200px); }
 .cube__face--top    { transform: rotateX( 90deg) translateZ(200px); }
 .cube__face--bottom { transform: rotateX(-90deg) translateZ(200px); }
+
+@media only screen and (max-width: 440px) {
+ .scene {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  perspective: 400px;
+
+}
+
+.cube {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin:auto;
+  transform-style: preserve-3d;
+  transform: translateZ(-100px);
+  transition: transform 1s;
+  margin-top:25px;
+}
+
+.cube.show-front  { transform: translateZ(-100px) rotateY(   0deg); }
+.cube.show-right  { transform: translateZ(-100px) rotateY( -90deg); }
+.cube.show-back   { transform: translateZ(-100px) rotateY(-180deg); }
+.cube.show-left   { transform: translateZ(-100px) rotateY(  90deg); }
+.cube.show-top    { transform: translateZ(-100px) rotateX( -90deg); }
+.cube.show-bottom { transform: translateZ(-100px) rotateX(  90deg); }
+
+.cube__face {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  font-size: 10px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  background-color:white;
+}
+
+
+.cube__face--front  { transform: rotateY(  0deg) translateZ(100px); }
+.cube__face--right  { transform: rotateY( 90deg) translateZ(100px); }
+.cube__face--back   { transform: rotateY(180deg) translateZ(100px); }
+.cube__face--left   { transform: rotateY(-90deg) translateZ(100px); }
+.cube__face--top    { transform: rotateX( 90deg) translateZ(100px); }
+.cube__face--bottom { transform: rotateX(-90deg) translateZ(100px); } 
+
+}
+
 
 label { margin-right: 10px; }
 

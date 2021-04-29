@@ -25,7 +25,7 @@
   <div class="deselect-square" :class="{'hideit': selectedSquare === null}" v-on:click="deselectSquare()"></div>
   <div style="margin-top:15px;" v-if="side === viewingside">
       <div style="float:left;">
-        <button v-on:click="undo()">Undo</button>
+        <button v-on:click="undo()" :disabled="puzzle.history.length === 0">Undo</button>
       </div>
       <div style="float:right;">
         <label>Check answers<input type="checkbox" id="checkanswers" name="checkanswers" v-model="check" @change="checkAnswers()"></label>
@@ -77,9 +77,7 @@ export default {
         if (!this.puzzle.history.length) {
             return;
         }
-        console.log(this.puzzle.history);
         const lastGame = this.puzzle.history.shift();
-        console.log(lastGame);
         this.puzzle.game = lastGame;
         localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
         this.checkAnswers();
@@ -199,5 +197,11 @@ box-shadow: inset 0px 0px 1px 1px #bfbfbf;
 }
 .answer-incorrect {
     background-color:rgba(255, 0, 0, 0.297);
+}
+
+@media only screen and (max-width: 440px) {
+.block-text-wrapper {
+    margin-top: 5px;
+}
 }
 </style>
