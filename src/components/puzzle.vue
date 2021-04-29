@@ -25,10 +25,11 @@
   <div class="deselect-square" :class="{'hideit': selectedSquare === null}" v-on:click="deselectSquare()"></div>
   <div style="margin-top:15px;" v-if="side === viewingside">
       <div style="float:left;">
-        <button v-on:click="undo()" :disabled="puzzle.history.length === 0">Undo</button>
+        <button v-on:click="undo()" :disabled="puzzle.history.length === 0">Undo</button>&nbsp;
+        <button v-on:click="redo()" :disabled="puzzle.redo.length === 0">Redo</button>
       </div>
       <div style="float:right;">
-        <label>Check answers<input type="checkbox" id="checkanswers" name="checkanswers" v-model="check" @change="checkAnswers()"></label>
+        <label v-bind:style="{ color: darkMode?'white':'black' }">Check answers<input type="checkbox" id="checkanswers" name="checkanswers" v-model="check" @change="checkAnswers()"></label>
             
       </div>
       </div>
@@ -42,7 +43,8 @@ export default {
     side: String,
     puzzleNum: Number,
     puzzle: Object,
-    viewingside: String
+    viewingside: String,
+    darkMode: Boolean
   },
   data: function () {
     return {
@@ -70,6 +72,7 @@ export default {
         this.puzzle.history.unshift([...this.puzzle.game]);
         this.puzzle.game[this.selectedSquare] = squareVal;
         this.selectedSquare = null;
+        this.puzzle.redo = [];
         localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
         this.checkAnswers();
     },
@@ -78,6 +81,17 @@ export default {
             return;
         }
         const lastGame = this.puzzle.history.shift();
+        this.puzzle.redo.unshift([...this.puzzle.game]);
+        this.puzzle.game = lastGame;
+        localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
+        this.checkAnswers();
+    },
+    redo() {
+        if (!this.puzzle.redo.length) {
+            return;
+        }
+        const lastGame = this.puzzle.redo.shift();
+        this.puzzle.history.unshift([...this.puzzle.game]);
         this.puzzle.game = lastGame;
         localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
         this.checkAnswers();

@@ -3,38 +3,38 @@
 <div class="scene">
   <div class="cube" v-bind:class="[ viewableSideClass ]">
     <div class="cube__face cube__face--front" >
-      <Puzzle side="front" :viewingside="theSide" :puzzle="frontPuzzle" :puzzleNum="selectedPuzzle"/>
+      <Puzzle side="front" :viewingside="theSide" :puzzle="frontPuzzle" :puzzleNum="selectedPuzzle" :darkMode="darkMode"/>
     </div>
-    <div class="cube__face cube__face--back">
-      <Puzzle side="back" :viewingside="theSide" :puzzle="backPuzzle" :puzzleNum="selectedPuzzle" /></div>
-    <div class="cube__face cube__face--right">
-      <Puzzle side="right" :viewingside="theSide"  :puzzle="rightPuzzle"  :puzzleNum="selectedPuzzle" /></div>
-    <div class="cube__face cube__face--left">
-      <Puzzle side="left" :viewingside="theSide"  :puzzle="leftPuzzle"  :puzzleNum="selectedPuzzle" /></div>
-    <div class="cube__face cube__face--top">
-      <Puzzle side="top" :viewingside="theSide"  :puzzle="topPuzzle"  :puzzleNum="selectedPuzzle" /></div>
-    <div class="cube__face cube__face--bottom">
-      <Puzzle side="bottom" :viewingside="theSide"  :puzzle="bottomPuzzle"  :puzzleNum="selectedPuzzle" /></div>
+    <div class="cube__face cube__face--back" >
+      <Puzzle side="back" :viewingside="theSide" :puzzle="backPuzzle" :puzzleNum="selectedPuzzle" :darkMode="darkMode" /></div>
+    <div class="cube__face cube__face--right" >
+      <Puzzle side="right" :viewingside="theSide"  :puzzle="rightPuzzle"  :puzzleNum="selectedPuzzle" :darkMode="darkMode" /></div>
+    <div class="cube__face cube__face--left" >
+      <Puzzle side="left" :viewingside="theSide"  :puzzle="leftPuzzle"  :puzzleNum="selectedPuzzle" :darkMode="darkMode" /></div>
+    <div class="cube__face cube__face--top" >
+      <Puzzle side="top" :viewingside="theSide"  :puzzle="topPuzzle"  :puzzleNum="selectedPuzzle" :darkMode="darkMode" /></div>
+    <div class="cube__face cube__face--bottom" >
+      <Puzzle side="bottom" :viewingside="theSide"  :puzzle="bottomPuzzle"  :puzzleNum="selectedPuzzle" :darkMode="darkMode" /></div>
   </div>
 </div>
 <p class="radio-group" style="margin-top:100px;">
   <label>
-    <input type="radio"  v-model="theSide" name="rotate-cube-side" value="front" v-on:click="setSide('front')" /> Front
+    <input type="radio" v-model="theSide" name="rotate-cube-side" value="front" v-on:click="setSide('front')" /> Front
   </label>
   <label>
-    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="right" v-on:click="setSide('right')"  /> Right
+    <input type="radio" v-model="theSide" name="rotate-cube-side" value="right" v-on:click="setSide('right')"  /> Right
   </label>
   <label>
-    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="back" v-on:click="setSide('back')" /> Back
+    <input type="radio" v-model="theSide" name="rotate-cube-side" value="back" v-on:click="setSide('back')" /> Back
   </label>
   <label>
-    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="left" v-on:click="setSide('left')" /> Left
+    <input type="radio" v-model="theSide" name="rotate-cube-side" value="left" v-on:click="setSide('left')" /> Left
   </label>
   <label>
-    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="top" v-on:click="setSide('top')" /> Top
+    <input type="radio" v-model="theSide" name="rotate-cube-side" value="top" v-on:click="setSide('top')" /> Top
   </label>
   <label>
-    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="bottom" v-on:click="setSide('bottom')" /> Bottom
+    <input type="radio" v-model="theSide" name="rotate-cube-side" value="bottom" v-on:click="setSide('bottom')" /> Bottom
   </label>
 </p>
 <div>
@@ -65,7 +65,7 @@ export default {
     Puzzle
   },
   props: {
-    msg: String
+    darkMode: Boolean,
   },
   data: function () {
     return {

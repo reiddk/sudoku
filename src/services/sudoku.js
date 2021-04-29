@@ -111,7 +111,8 @@ class Sudoku {
             completed,
             game,
             defaultPieces:this.sudokyViewablePieces[side][puzzleNum],
-            history: []
+            history: [],
+            redo: []
         }
     }
 
