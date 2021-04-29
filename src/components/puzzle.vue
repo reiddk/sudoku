@@ -23,6 +23,7 @@
       <div class="thick-border-right" ></div>
   </div>
   <div class="deselect-square" :class="{'hideit': selectedSquare === null}" v-on:click="deselectSquare()"></div>
+  <div style="margin-top:15px;"><button v-on:click="undo()">Undo</button></div>
 </div>
 </template>
 
@@ -31,6 +32,7 @@ export default {
   name: 'Puzzle',
   props: {
     side: String,
+    puzzleNum: Number,
     puzzle: Object
   },
   data: function () {
@@ -54,8 +56,19 @@ export default {
         if (this.selectedSquare === null) {
             return;
         }
+        this.puzzle.history.push([...this.puzzle.game]);
         this.puzzle.game[this.selectedSquare] = squareVal;
         this.selectedSquare = null;
+        localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
+    },
+    undo() {
+        if (!this.puzzle.history.length) {
+            return;
+        }
+        const lastGame = this.puzzle.history.shift();
+        console.log(lastGame);
+        this.puzzle.game = lastGame;
+        localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
     }
   }
 }

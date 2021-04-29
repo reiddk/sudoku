@@ -6,35 +6,35 @@
       <Puzzle side="front" :puzzle="frontPuzzle" />
     </div>
     <div class="cube__face cube__face--back">
-      <Puzzle side="back" :puzzle="backPuzzle" /></div>
+      <Puzzle side="back" :puzzle="backPuzzle" :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--right">
-      <Puzzle side="right" :puzzle="rightPuzzle" /></div>
+      <Puzzle side="right" :puzzle="rightPuzzle"  :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--left">
-      <Puzzle side="left" :puzzle="leftPuzzle" /></div>
+      <Puzzle side="left" :puzzle="leftPuzzle"  :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--top">
-      <Puzzle side="top" :puzzle="topPuzzle" /></div>
+      <Puzzle side="top" :puzzle="topPuzzle"  :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--bottom">
-      <Puzzle side="bottom" :puzzle="bottomPuzzle" /></div>
+      <Puzzle side="bottom" :puzzle="bottomPuzzle"  :puzzleNum="selectedPuzzle" /></div>
   </div>
 </div>
-<p class="radio-group">
+<p class="radio-group" style="margin-top:100px;">
   <label>
-    <input type="radio" name="rotate-cube-side" value="front" v-on:click="setSide('front')" /> front
+    <input type="radio"  v-model="theSide" name="rotate-cube-side" value="front" v-on:click="setSide('front')" /> Front
   </label>
   <label>
-    <input type="radio" name="rotate-cube-side" value="right" v-on:click="setSide('right')"  /> right
+    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="right" v-on:click="setSide('right')"  /> Right
   </label>
   <label>
-    <input type="radio" name="rotate-cube-side" value="back" v-on:click="setSide('back')" /> back
+    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="back" v-on:click="setSide('back')" /> Back
   </label>
   <label>
-    <input type="radio" name="rotate-cube-side" value="left" v-on:click="setSide('left')" /> left
+    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="left" v-on:click="setSide('left')" /> Left
   </label>
   <label>
-    <input type="radio" name="rotate-cube-side" value="top" v-on:click="setSide('top')" /> top
+    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="top" v-on:click="setSide('top')" /> Top
   </label>
   <label>
-    <input type="radio" name="rotate-cube-side" value="bottom" v-on:click="setSide('bottom')" /> bottom
+    <input type="radio" v-model="theSide"  name="rotate-cube-side" value="bottom" v-on:click="setSide('bottom')" /> Bottom
   </label>
 </p>
 <div>
@@ -62,7 +62,8 @@ export default {
   },
   data: function () {
     return {
-      viewableSide:'side-right',
+      viewableSide:'',
+      theSide: '',
       frontPuzzle: {},
       backPuzzle: {},
       rightPuzzle: {},
@@ -74,7 +75,9 @@ export default {
   },
   methods: {
     setSide(side) {
+      this.theSide = side;
       this.viewableSide = `show-${side} side-${side}`;
+      localStorage.setItem('showingside', String(side));
     },
     setPuzzles() {
       if (isNaN(this.selectedPuzzle)) {
@@ -87,13 +90,16 @@ export default {
       this.leftPuzzle = sudoku.generateSudokuArr('left',this.selectedPuzzle);
       this.topPuzzle = sudoku.generateSudokuArr('top',this.selectedPuzzle);
       this.bottomPuzzle = sudoku.generateSudokuArr('bottom',this.selectedPuzzle);
-      localStorage.setItem('lastChosenPuzzle', String(this.selectedPuzzle))
+      localStorage.setItem('lastChosenPuzzle', String(this.selectedPuzzle));
     }
   },
     mounted() {
       const lastChosenPuzzle = localStorage.getItem('lastChosenPuzzle') || 0;
       this.selectedPuzzle = lastChosenPuzzle;
       this.setPuzzles();
+
+      this.setSide(localStorage.getItem('showingside') || `front`);
+
     }
 
 }
@@ -117,9 +123,11 @@ body { font-family: sans-serif; }
   width: 400px;
   height: 400px;
   position: relative;
+  margin:auto;
   transform-style: preserve-3d;
   transform: translateZ(-200px);
   transition: transform 1s;
+  margin-top:25px;
 }
 
 .cube.show-front  { transform: translateZ(-200px) rotateY(   0deg); }
@@ -141,7 +149,12 @@ body { font-family: sans-serif; }
   background-color:white;
 }
 
-
+.cube-wrapper {
+  width: 450px;
+  height: 450px;
+  padding:1px;
+  position:relative;
+}
 
 .cube__face--front  { transform: rotateY(  0deg) translateZ(200px); }
 .cube__face--right  { transform: rotateY( 90deg) translateZ(200px); }
@@ -154,30 +167,44 @@ label { margin-right: 10px; }
 
 
 .arrow {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
+border: solid black;
+    border-width: 0 6px 6px 0;
+    display: inline-block;
+    padding: 10px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.arrow:hover {
+  opacity:.5;
 }
 
 .right {
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
+  right:0px;
+  top:47%;
 }
 
 .left {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
+  left:0px;
+  top:47%;
 }
 
 .up {
   transform: rotate(-135deg);
   -webkit-transform: rotate(-135deg);
+  top:0px;
+  left: 47%;
 }
 
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+  bottom:0px;
+  left: 47%;
 }
 
 

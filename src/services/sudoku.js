@@ -94,7 +94,8 @@ class Sudoku {
         return {
             completed,
             game,
-            defaultPieces:this.sudokyViewablePieces[side][puzzleNum]
+            defaultPieces:this.sudokyViewablePieces[side][puzzleNum],
+            history: []
         }
     }
 
