@@ -67,7 +67,7 @@ export default {
         if (this.selectedSquare === null) {
             return;
         }
-        this.puzzle.history.push([...this.puzzle.game]);
+        this.puzzle.history.unshift([...this.puzzle.game]);
         this.puzzle.game[this.selectedSquare] = squareVal;
         this.selectedSquare = null;
         localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
@@ -77,6 +77,7 @@ export default {
         if (!this.puzzle.history.length) {
             return;
         }
+        console.log(this.puzzle.history);
         const lastGame = this.puzzle.history.shift();
         console.log(lastGame);
         this.puzzle.game = lastGame;
@@ -88,7 +89,7 @@ export default {
         if (!this.check) {
             return;
         }
-        console.log('got to check answers');
+        
         for (let i = 0; i < this.puzzle.completed.length; i++) {
             if (this.puzzle.game[i] !== null &&
                 this.puzzle.game[i] !== this.puzzle.completed[i]) {
