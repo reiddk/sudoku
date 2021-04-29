@@ -1,7 +1,7 @@
 <template>
 <div class="sudoku-puzzle">
   <div class="sudoku-block" v-for="(item, index) in puzzle.game" :key="index">
-      <div class="sudoku-block-content" :class="{'clickable': !puzzle.defaultPieces.includes(index) }" v-on:click="setSelectedSquae(index)">
+      <div class="sudoku-block-content" :class="{'clickable': !puzzle.defaultPieces.includes(index), 'answer-incorrect': incorrectNumbers.includes(index) }" v-on:click="setSelectedSquae(index)">
           <div style="" class="block-text-wrapper" :class="{'hide-text': !item, 'opacity-text':puzzle.defaultPieces.includes(index) }">{{ (item)?item:1 }}</div>
       </div>
           <div class="possibilities" :class="{'show-possibilities': index === selectedSquare}">
@@ -23,7 +23,15 @@
       <div class="thick-border-right" ></div>
   </div>
   <div class="deselect-square" :class="{'hideit': selectedSquare === null}" v-on:click="deselectSquare()"></div>
-  <div style="margin-top:15px;"><button v-on:click="undo()">Undo</button></div>
+  <div style="margin-top:15px;" v-if="side === viewingside">
+      <div style="float:left;">
+        <button v-on:click="undo()">Undo</button>
+      </div>
+      <div style="float:right;">
+        <label>Check answers<input type="checkbox" id="checkanswers" name="checkanswers" v-model="check" @change="checkAnswers()"></label>
+            
+      </div>
+      </div>
 </div>
 </template>
 
@@ -33,12 +41,15 @@ export default {
   props: {
     side: String,
     puzzleNum: Number,
-    puzzle: Object
+    puzzle: Object,
+    viewingside: String
   },
   data: function () {
     return {
         selectedSquare: null,
-        possibilites: [1,2,3,4,5,6,7,8,9]
+        possibilites: [1,2,3,4,5,6,7,8,9],
+        check: false,
+        incorrectNumbers: []
     }
   },
   methods: {
@@ -60,6 +71,7 @@ export default {
         this.puzzle.game[this.selectedSquare] = squareVal;
         this.selectedSquare = null;
         localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
+        this.checkAnswers();
     },
     undo() {
         if (!this.puzzle.history.length) {
@@ -69,6 +81,20 @@ export default {
         console.log(lastGame);
         this.puzzle.game = lastGame;
         localStorage.setItem(`${this.side}_${this.puzzleNum}`, JSON.stringify(this.puzzle));
+        this.checkAnswers();
+    },
+    checkAnswers() {
+        this.incorrectNumbers = [];
+        if (!this.check) {
+            return;
+        }
+        console.log('got to check answers');
+        for (let i = 0; i < this.puzzle.completed.length; i++) {
+            if (this.puzzle.game[i] !== null &&
+                this.puzzle.game[i] !== this.puzzle.completed[i]) {
+                    this.incorrectNumbers.push(i);
+            }
+        }
     }
   }
 }
@@ -169,5 +195,8 @@ user-select: none; /* Standard */
 .possiblility:hover {
    -webkit-box-shadow: inset 0px 0px 1px 1px #bfbfbf; 
 box-shadow: inset 0px 0px 1px 1px #bfbfbf; 
+}
+.answer-incorrect {
+    background-color:rgba(255, 0, 0, 0.297);
 }
 </style>

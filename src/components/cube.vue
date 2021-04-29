@@ -1,20 +1,20 @@
 <template>
   <div class="hello">
 <div class="scene">
-  <div class="cube" v-bind:class="[ viewableSide ]">
+  <div class="cube" v-bind:class="[ viewableSideClass ]">
     <div class="cube__face cube__face--front" >
-      <Puzzle side="front" :puzzle="frontPuzzle" />
+      <Puzzle side="front" :viewingside="theSide" :puzzle="frontPuzzle" :puzzleNum="selectedPuzzle"/>
     </div>
     <div class="cube__face cube__face--back">
-      <Puzzle side="back" :puzzle="backPuzzle" :puzzleNum="selectedPuzzle" /></div>
+      <Puzzle side="back" :viewingside="theSide" :puzzle="backPuzzle" :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--right">
-      <Puzzle side="right" :puzzle="rightPuzzle"  :puzzleNum="selectedPuzzle" /></div>
+      <Puzzle side="right" :viewingside="theSide"  :puzzle="rightPuzzle"  :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--left">
-      <Puzzle side="left" :puzzle="leftPuzzle"  :puzzleNum="selectedPuzzle" /></div>
+      <Puzzle side="left" :viewingside="theSide"  :puzzle="leftPuzzle"  :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--top">
-      <Puzzle side="top" :puzzle="topPuzzle"  :puzzleNum="selectedPuzzle" /></div>
+      <Puzzle side="top" :viewingside="theSide"  :puzzle="topPuzzle"  :puzzleNum="selectedPuzzle" /></div>
     <div class="cube__face cube__face--bottom">
-      <Puzzle side="bottom" :puzzle="bottomPuzzle"  :puzzleNum="selectedPuzzle" /></div>
+      <Puzzle side="bottom" :viewingside="theSide"  :puzzle="bottomPuzzle"  :puzzleNum="selectedPuzzle" /></div>
   </div>
 </div>
 <p class="radio-group" style="margin-top:100px;">
@@ -62,7 +62,7 @@ export default {
   },
   data: function () {
     return {
-      viewableSide:'',
+      viewableSideClass:'',
       theSide: '',
       frontPuzzle: {},
       backPuzzle: {},
@@ -76,7 +76,7 @@ export default {
   methods: {
     setSide(side) {
       this.theSide = side;
-      this.viewableSide = `show-${side} side-${side}`;
+      this.viewableSideClass = `show-${side} side-${side}`;
       localStorage.setItem('showingside', String(side));
     },
     setPuzzles() {
