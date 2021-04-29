@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <Cube msg="Welcome to Your Vue.js App"/>
+    <Cube />
+    <div style="margin-top:15px;">
+     The github link is here <a href="https://github.com/reiddk/sudoku">https://github.com/reiddk/sudoku</a>
+    </div>
   </div>
 </template>
 
